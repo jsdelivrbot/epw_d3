@@ -75,10 +75,6 @@
 </head>
 
 <body>
-	<div>
-		<h3>Yearly Temperature Heatmap</h3>
-		<svg id='chart'></svg>
-	</div>
 
 <div id="wrapper">
 
@@ -197,8 +193,8 @@
                 </div>
             </div>
         </div>
-    </div> <!-- page wrapper -->
-
+    </div>
+		 <!-- page wrapper -->
     <!-- footer -->
     <footer class="footer">
       <div class="container-fluid">
@@ -206,6 +202,8 @@
       </div>
     </footer> <!-- footer -->
 </div> <!-- end page elements-->
+<h3>Yearly Temperature Heatmap</h3>
+<svg id="chart" width="500" height="500"></svg>
 
 <script type="text/javascript">
   //from: http://www.html5rocks.com/en/tutorials/file/dndfiles/
@@ -214,15 +212,15 @@
   var epw = {};
   var unitSystem = "IP";
 
-	var myCircos = new Circos({
-			container: '#chart',
-			width: 500,
-			height: 500,
+  var myCircos = new Circos({
+      container: '#chart',
+      width: 500,
+      height: 500,
 		});
 
 	var configuration = {
-	  innerRadius: 250,
-	  outerRadius: 300,
+	  innerRadius: 200,
+	  outerRadius: 250,
 	  cornerRadius: 10,
 	  gap: 0.04, // in radian
 	  labels: {
@@ -233,7 +231,7 @@
 	    radialOffset: 20,
 	  },
 	  ticks: {
-	    display: true,
+	    display: false,
 	    color: 'grey',
 	    spacing: 10000000,
 	    labels: true,
@@ -269,6 +267,8 @@
 	]
 
 	myCircos.layout(data, configuration);
+
+	myCircos.render()
 
 /*
   $("#buttonIP").on("click", function(e) {
@@ -313,7 +313,7 @@
         // parse file to an epw json object
         epw = epw2json(raw);
         //document.write(JSON.stringify(epw.dryBulbTemperature()));
-
+        console.log(epw.dryBulbTemperature)
 		//console.log(epw);
 
 		document.getElementById('stationName').innerHTML = "Weather for " + epw.stationLocation;
