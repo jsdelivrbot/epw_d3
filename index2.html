@@ -18,6 +18,7 @@
 <!-- Added circos below -->
 <script src="https://cdn.rawgit.com/nicgirault/circosJS/v2/dist/circos.js"></script>
 <script type="text/javascript" src="./lib/js/charts.js"></script>
+<script type="text/javascript" src="./lib/js/circularHeatChart.js"></script>
 
 
 
@@ -206,6 +207,11 @@
 </div> <!-- end page elements-->
 <h3>Yearly Temperature Heatmap</h3>
 <svg id="chart" width="500" height="500"></svg>
+<h3>Yearly Wind Speed Heatmap</h3>
+<svg id="windheatmap" width="500" height="500"></svg>
+<h3>Yearly Dry Bulb Temperature</h3>
+<div class="heatmap"></div>
+
 
 <script type="text/javascript">
   //from: http://www.html5rocks.com/en/tutorials/file/dndfiles/
@@ -296,18 +302,36 @@
 
         // parse file to an epw json object
         epw = epw2json(raw);
-        console.log("Start of script")
-        //document.write(JSON.stringify(epw.dryBulbTemperature()));
-        //console.log(epw.hour())
-        //console.log(epw.month())
-        //console.log(epw.CircosHeatmap(epw.dryBulbTemperature()))
-		//console.log(epw);
-<<<<<<< HEAD
-        console.log(appendBins(epw.windSpeed(), epw.windDirection()))
-=======
-        console.log(appendBins(epw.windSpeed(), epw.windDirection(), 6))
->>>>>>> origin/master
-        console.log("End of script")
+
+
+				var categorisedData = appendBins(epw.windSpeed(), epw.windDirection());
+				var dataKeys = Object.keys(categorisedData)
+				var heatmapData = heatmapFlatten(categorisedData);
+
+				//var chart = circularHeatChart()
+				  //  .segmentHeight(20)
+				  //  .innerRadius(20)
+				  //  .numSegments(24)
+				  //  .radialLabels(dataKeys)
+				  //  .segmentLabels(Object.keys(categorisedData[dataKeys[1]]))
+				  //  .margin({top: 20, right: 0, bottom: 20, left: 280});
+				var radialLabels = ["<2 m/s","<4 m/s"," <6 m/s", "<8 m/s","<10 m/s",">10 m/s"]
+				loadCircularHeatMap(heatmapData, '#windheatmap', radialLabels, dataKeys, dataKeys.length);
+				loadFlatHeatmap(epw);
+
+						console.log("Start of script")
+						console.log(dataKeys)
+						console.log(categorisedData)
+						console.log(Object.keys(categorisedData[dataKeys[1]]))
+						console.log(heatmapData)
+						console.log("End of script")
+
+				//d3.select('#windheatmap')
+				//		.selectAll('svg')
+				//		.data(heatmapData)
+				//		.enter()
+				//		.append('svg')
+				//		.call(chart)
 
         //var rad = [];
 
