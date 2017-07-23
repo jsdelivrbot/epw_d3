@@ -17,6 +17,8 @@
 <script type="text/javascript" src="./lib/js/epwCharts.js"></script>
 <!-- Added circos below -->
 <script src="https://cdn.rawgit.com/nicgirault/circosJS/v2/dist/circos.js"></script>
+<script type="text/javascript" src="./lib/js/charts.js"></script>
+
 
 
 <style>
@@ -230,24 +232,6 @@
 	    color: '#000000',
 	    radialOffset: 20,
 	  },
-	  ticks: {
-	    display: false,
-	    color: 'grey',
-	    spacing: 10000000,
-	    labels: true,
-	    labelSpacing: 10,
-	    labelSuffix: 'Mb',
-	    labelDenominator: 1000000,
-	    labelDisplay0: true,
-	    labelSize: '10px',
-	    labelColor: '#000000',
-	    labelFont: 'default',
-	    majorSpacing: 5,
-	    size: {
-	      minor: 2,
-	      major: 5,
-	    }
-	  },
 	  clickCallback: null
 	};
 
@@ -268,7 +252,7 @@
 
 	myCircos.layout(data, configuration);
 
-	myCircos.render()
+	myCircos.render();
 
 /*
   $("#buttonIP").on("click", function(e) {
@@ -312,9 +296,50 @@
 
         // parse file to an epw json object
         epw = epw2json(raw);
+        console.log("Start of script")
         //document.write(JSON.stringify(epw.dryBulbTemperature()));
-        console.log(epw.dryBulbTemperature)
+        //console.log(epw.hour())
+        //console.log(epw.month())
+        //console.log(epw.CircosHeatmap(epw.dryBulbTemperature()))
 		//console.log(epw);
+        console.log(appendBins(epw.windSpeed(), epw.windDirection(), 6))
+        console.log("End of script")
+
+        //var rad = [];
+
+        //for (var i = 80; i <= 200; i+5) {
+        //    rad.push(i);
+        //}
+
+        //var str_hour = "hour : ";
+
+        //var heatmap_data = epw.CircosHeatmap(epw.dryBulbTemperature());
+
+        /*for (i = 1; i < 25; i ++) {
+            config = {
+                innerRadius: rad[i],
+                outerRadius: rad[i+1],
+                min: Math.min(epw.dryBulbTemperature()),
+                max: Math.max(epw.dryBulbTemperature()),
+                color: 'YlGnBu',
+                logScale: false,
+                tooltipContent: null,
+            }
+            myCircos.heatmap(str_hour.concat(i), heatmap_data[i], config);
+            myCircos.render();
+        }*/
+        var config = {
+                innerRadius: 80,
+                outerRadius: 85,
+                min: Math.min(epw.dryBulbTemperature()),
+                max: Math.max(epw.dryBulbTemperature()),
+                color: 'YlGnBu',
+                logScale: false,
+                tooltipContent: null,
+            };
+
+        //myCircos.heatmap("hour 1", heatmap_data[1], config);
+
 
 		document.getElementById('stationName').innerHTML = "Weather for " + epw.stationLocation;
         //updateCharts(epw, unitSystem)
